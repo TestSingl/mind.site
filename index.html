@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>MIND</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* 🌌 фон */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* контейнер */
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+/* 🔥 MIND главный */
+.title {
+  font-size: 80px;
+  letter-spacing: 10px;
+  color: #2f5bff;
+  text-shadow: 0 0 15px #2f5bff, 0 0 50px #2f5bff;
+  animation: glow 2s infinite alternate, fadeIn 1.5s forwards;
+}
+
+/* свечение */
+@keyframes glow {
+  from { text-shadow: 0 0 10px #2f5bff; }
+  to { text-shadow: 0 0 40px #2f5bff, 0 0 80px #2f5bff; }
+}
+
+/* появление */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+
+/* кнопки */
+.buttons {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+.btn {
+  padding: 14px 28px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.btn:hover {
+  background: white;
+  color: black;
+  transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+  <div class="title">MIND</div>
+
+  <div class="buttons">
+    <button class="btn" onclick="openTG('https://t.me/vk0ss')">
+      My Telegram
+    </button>
+
+    <button class="btn" onclick="openTG('https://t.me/nowaystay')">
+      Before writing
+    </button>
+  </div>
+</div>
+
+<script>
+function openTG(link) {
+  window.open(link, "_blank");
+}
+
+/* 🌌 частицы */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 120; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    size: Math.random() * 2,
+    speedX: (Math.random() - 0.5) * 0.5,
+    speedY: (Math.random() - 0.5) * 0.5
+  });
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  particles.forEach(p => {
+    p.x += p.speedX;
+    p.y += p.speedY;
+
+    if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+    ctx.fillStyle = "#2f5bff";
+    ctx.fillRect(p.x, p.y, p.size, p.size);
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.onresize = () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+};
+</script>
+
+</body>
+</html>
